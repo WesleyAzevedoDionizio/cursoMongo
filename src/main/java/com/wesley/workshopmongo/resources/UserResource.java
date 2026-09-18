@@ -1,5 +1,6 @@
 package com.wesley.workshopmongo.resources;
 
+import com.wesley.workshopmongo.domain.Post;
 import com.wesley.workshopmongo.domain.User;
 import com.wesley.workshopmongo.dto.UserDTO;
 import com.wesley.workshopmongo.services.UserService;
@@ -36,6 +37,13 @@ public class UserResource {
         return ResponseEntity.ok(new UserDTO(obj));
     }
 
+    @GetMapping(value = "/{id}/posts")
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id){
+        User obj = service.findById(id);
+        return ResponseEntity.ok(obj.getPosts());
+    }
+
+
     @PostMapping
     public ResponseEntity<Void> insert(@RequestBody UserDTO obj){
            User u = service.fromDTO(obj);
@@ -57,4 +65,6 @@ public class UserResource {
         service.update(u);
         return ResponseEntity.noContent().build();
     }
+
+
 }
